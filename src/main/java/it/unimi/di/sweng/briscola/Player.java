@@ -3,12 +3,10 @@ package it.unimi.di.sweng.briscola;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Player  {
-
-  // TODO rendere la classe Comparable con altri Player confrontando i punteggi
-  // TODO rendere la classe Iterable sulle carte che ha in mano
+public class Player implements Comparable<Player>, Iterable<Card> {
 
   private @NotNull final String name;
   private @NotNull final List<Card> cards = new ArrayList<>();
@@ -81,5 +79,16 @@ public class Player  {
 
   public void shoutResult() {
     System.out.printf("Sono %s e ho vinto con %d punti%n", getName(), getPoints());
+  }
+
+  @Override
+  public int compareTo(@NotNull Player other) {
+    return Integer.compare(this.getPoints(), other.getPoints());
+  }
+
+  @NotNull
+  @Override
+  public Iterator<Card> iterator() {
+    return new ArrayList<>(cards).iterator();
   }
 }

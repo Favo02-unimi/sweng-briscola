@@ -3,9 +3,10 @@ package it.unimi.di.sweng.briscola;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Player implements Comparable<Player> {
+public class Player implements Comparable<Player>, Iterable<Card> {
 
   // TODO rendere la classe Iterable sulle carte che ha in mano
 
@@ -85,5 +86,11 @@ public class Player implements Comparable<Player> {
   @Override
   public int compareTo(@NotNull Player other) {
     return Integer.compare(this.getPoints(), other.getPoints());
+  }
+
+  @NotNull
+  @Override
+  public Iterator<Card> iterator() {
+    return null;
   }
 }

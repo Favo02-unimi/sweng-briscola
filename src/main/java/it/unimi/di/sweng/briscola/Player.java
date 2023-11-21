@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Player implements Comparable<Player>, Iterable<Card> {
 
-  // TODO rendere la classe Iterable sulle carte che ha in mano
-
   private @NotNull final String name;
   private @NotNull final List<Card> cards = new ArrayList<>();
   private @NotNull final List<Card> personalDeck = new ArrayList<>();
@@ -91,6 +89,6 @@ public class Player implements Comparable<Player>, Iterable<Card> {
   @NotNull
   @Override
   public Iterator<Card> iterator() {
-    return null;
+    return new ArrayList<>(cards).iterator();
   }
 }

@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.briscola;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,87 +9,90 @@ import java.util.List;
 
 public class Player implements Comparable<Player>, Iterable<Card> {
 
-  private @NotNull final String name;
-  private @NotNull final List<Card> cards = new ArrayList<>();
-  private @NotNull final List<Card> personalDeck = new ArrayList<>();
-  private @NotNull Strategy firstStrategy ;
-  private @NotNull Strategy secondStrategy ;
-  private Card chosenCard;
+    private final @NotNull String name;
 
-  public Player(@NotNull String name) {
-    this.name = name;
-  }
+    private final @NotNull List<Card> cards = new ArrayList<>();
+    private final @NotNull List<Card> personalDeck = new ArrayList<>();
 
-  public void setFirstStrategy(@NotNull Strategy firstStrategy) {
-    this.firstStrategy = firstStrategy;
-  }
+    private @NotNull Strategy firstStrategy;
+    private @NotNull Strategy secondStrategy;
 
-  public void setSecondStrategy(@NotNull Strategy secondStrategy) {
-    this.secondStrategy = secondStrategy;
-  }
+    private @Nullable Card chosenCard;
 
-  void giveCard(@NotNull Card card) {
-    assert cards.size() < 3;
-    cards.add(card);
-  }
-
-  public void addWonCardsToPersonalDeck(@NotNull Card first, @NotNull Card second) {
-    personalDeck.add(first);
-    personalDeck.add(second);
-  }
-
-  @NotNull
-  public Card chooseFirstCard(@NotNull Briscola game) {
-    chosenCard = firstStrategy.chooseCard(this, game.otherPlayer(this), game.getBriscola());
-    cards.remove(chosenCard);
-    return chosenCard;
-  }
-
-  @NotNull
-  public Card chooseSecondCard(@NotNull Briscola game) {
-    Card card = secondStrategy.chooseCard(this, game.otherPlayer(this), game.getBriscola());
-    cards.remove(card);
-    return card;
-
-  }
-
-  public Card playedCard() {
-    return chosenCard;
-  }
-
-  private int getPoints() {
-    int points = 0;
-    for (Card card : personalDeck) {
-      points += card.getRank().points();
+    public Player(@NotNull String name) {
+        this.name = name;
     }
-    return points;
-  }
 
-  @NotNull
-  public String getName() {
-    return name;
-  }
+    public void setFirstStrategy(@NotNull Strategy firstStrategy) {
+        this.firstStrategy = firstStrategy;
+    }
 
-  @Override
-  @NotNull
-  public String toString() {
-    return name +
-        " <" + getPoints() + ">" +
-        " " + cards;
-  }
+    public void setSecondStrategy(@NotNull Strategy secondStrategy) {
+        this.secondStrategy = secondStrategy;
+    }
 
-  public void shoutResult() {
-    System.out.printf("Sono %s e ho vinto con %d punti%n", getName(), getPoints());
-  }
+    void giveCard(@NotNull Card card) {
+        assert cards.size() < 3;
+        cards.add(card);
+    }
 
-  @Override
-  public int compareTo(@NotNull Player other) {
-    return Integer.compare(this.getPoints(), other.getPoints());
-  }
+    public void addWonCardsToPersonalDeck(@NotNull Card first, @NotNull Card second) {
+        personalDeck.add(first);
+        personalDeck.add(second);
+    }
 
-  @NotNull
-  @Override
-  public Iterator<Card> iterator() {
-    return new ArrayList<>(cards).iterator();
-  }
+    @NotNull
+    public Card chooseFirstCard(@NotNull Briscola game) {
+        chosenCard = firstStrategy.chooseCard(this, game.otherPlayer(this), game.getBriscola());
+        cards.remove(chosenCard);
+        return chosenCard;
+    }
+
+    @NotNull
+    public Card chooseSecondCard(@NotNull Briscola game) {
+        Card card = secondStrategy.chooseCard(this, game.otherPlayer(this), game.getBriscola());
+        cards.remove(card);
+        return card;
+    }
+
+    @Nullable
+    public Card playedCard() {
+        return chosenCard;
+    }
+
+    private int getPoints() {
+        int points = 0;
+        for (Card card : personalDeck) {
+            points += card.getRank().points();
+        }
+        return points;
+    }
+
+    @NotNull
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    @NotNull
+    public String toString() {
+        return name +
+                " <" + getPoints() + ">" +
+                " " + cards;
+    }
+
+    public void shoutResult() {
+        System.out.printf("Sono %s e ho vinto con %d punti%n", getName(), getPoints());
+    }
+
+    @Override
+    public int compareTo(@NotNull Player other) {
+        return Integer.compare(this.getPoints(), other.getPoints());
+    }
+
+    @NotNull
+    @Override
+    public Iterator<Card> iterator() {
+        return new ArrayList<>(cards).iterator();
+    }
 }

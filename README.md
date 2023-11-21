@@ -1,16 +1,5 @@
 # CORSO INGEGNERIA DEL SOFTWARE A.A. 2022/23
 
-## LABORATORIO 7 (VALUTATO)
-
-* TEAMMATE 1: <Cognome> <Nome> <matricola>
-* TEAMMATE 2: <Cognome> <Nome> <matricola>
-
-Ogni coppia di studenti effettua il **fork** di questo repository.
-L'utente che ha effettuato il fork modifica questo README inserendo le opportune **informazioni sui
-membri del team** seguendo lo schema sopra riportato.
-Inoltre, concede i permessi di scrittura al proprio compagno di team e i **permessi di lettura** ai
-docenti (`carlo.bellettini` e `mattia.monga`).
-
 ## Briscola a 2 a carte scoperte
 
 ### Il gioco

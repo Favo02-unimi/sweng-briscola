@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player  {
+public class Player implements Comparable<Player> {
 
   // TODO rendere la classe Comparable con altri Player confrontando i punteggi
   // TODO rendere la classe Iterable sulle carte che ha in mano
@@ -81,5 +81,10 @@ public class Player  {
 
   public void shoutResult() {
     System.out.printf("Sono %s e ho vinto con %d punti%n", getName(), getPoints());
+  }
+
+  @Override
+  public int compareTo(@NotNull Player other) {
+      return 0;
   }
 }

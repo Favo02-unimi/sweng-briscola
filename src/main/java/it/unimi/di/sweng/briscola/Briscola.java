@@ -89,8 +89,10 @@ public class Briscola {
 
   @NotNull
   public Player establishGameWinner() {
-    // TODO identifica (e restituisce) il vincitore della partita (o un NULL OBJECT adatto in caso di pareggio)
-    return null;
+      int comparation = players[0].compareTo(players[1]);
+      if (comparation > 0) return  players[0];
+      if (comparation < 0) return  players[1];
+      return PAREGGIO();
   }
 
   @NotNull
@@ -98,6 +100,11 @@ public class Briscola {
     if (players[0] == player)
       return players[1];
     return players[0];
+  }
+
+  @NotNull
+  public static Player PAREGGIO() {
+      return new Player("pareggio");
   }
 
 }

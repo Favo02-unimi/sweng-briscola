@@ -45,4 +45,29 @@ public class BriscolaTest {
         }
     }
 
+    @Nested
+    class gameWinnerTests {
+
+        @Mock Player g1;
+        @Mock Player g2;
+        @Mock Deck deck;
+        Briscola SUT;
+
+        @ParameterizedTest
+        @CsvSource({
+                "1,g1",
+                "0,pareggio",
+                "-1,g2",
+        })
+        void gameWinnerTest(int comparation, String winner) {
+            when(g1.getName()).thenReturn("g1");
+            when(g2.getName()).thenReturn("g2");
+            when(g1.compareTo(g2)).thenReturn(comparation);
+
+            SUT = new Briscola(g1, g2, deck);
+
+            assertThat(SUT.establishGameWinner().getName()).isEqualTo(winner);
+        }
+    }
+
 }

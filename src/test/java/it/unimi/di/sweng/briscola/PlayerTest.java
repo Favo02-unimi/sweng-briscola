@@ -49,7 +49,7 @@ public class PlayerTest {
         for (Card c : cardList)
             SUT.giveCard(c);
 
-        assertThat((Iterable<Card>) SUT).containsExactly(cardList.toArray(new Card[0]));
+        assertThat((Iterable<Card>) SUT).containsExactlyElementsOf(cardList);
     }
 
 }

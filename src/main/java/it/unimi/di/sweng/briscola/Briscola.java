@@ -3,93 +3,108 @@ package it.unimi.di.sweng.briscola;
 import org.jetbrains.annotations.NotNull;
 
 public class Briscola {
-  private final Deck deck;
-  private final Card briscola;
 
-  private boolean availableBriscolaCard = true;
-  private final Player[] players = new Player[2];
+    private final @NotNull Deck deck;
+    private final @NotNull Card briscola;
 
-  @NotNull
-  private Player firstCardPlayer;
+    private boolean availableBriscolaCard = true;
+    private final Player[] players = new Player[2];
 
-  public Briscola(@NotNull Player p1, @NotNull Player p2, @NotNull Deck d) {
-    deck = d;
+    private @NotNull Player firstCardPlayer;
 
-    players[0] = p1;
-    players[1] = p2;
-    firstCardPlayer = p1;
+    public Briscola(@NotNull Player p1, @NotNull Player p2, @NotNull Deck d) {
+        deck = d;
 
-    for (int i = 0; i < 3; i++)
-      for (int j = 0; j < 2; j++)
-        players[j].giveCard(deck.draw());
+        players[0] = p1;
+        players[1] = p2;
+        firstCardPlayer = p1;
 
-    briscola = deck.draw();
-  }
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 2; j++)
+                players[j].giveCard(deck.draw());
 
-  public void playTurn() {
-
-    System.out.println("\n\n---\nricordo che briscola è " + getBriscola());
-
-    System.out.println(firstCardPlayer);
-    Card firstCard = firstCardPlayer.chooseFirstCard(this);
-    System.out.println("ha scelto: " + firstCard);
-
-    System.out.println(otherPlayer(firstCardPlayer));
-    Card secondCard = otherPlayer(firstCardPlayer).chooseSecondCard(this);
-    System.out.println("ha scelto: " + secondCard);
-
-    firstCardPlayer = establishTurnWinner(firstCard, secondCard);
-    System.out.println("vince questa mano: " + firstCardPlayer.getName());
-    firstCardPlayer.addWonCardsToPersonalDeck(firstCard, secondCard);
-  }
-
-
-  @NotNull  // spostato a livello private package per facilitarne il testing
-  Player establishTurnWinner(@NotNull Card first, @NotNull Card second) {
-    // TODO identifica (e restituisce) il vincitore del turno applicando le regole alle due carte giocate
-    return null;
-  }
-
-  public void giveEachPlayerOneCard() {
-    firstCardPlayer.giveCard(draw());
-    otherPlayer(firstCardPlayer).giveCard(draw());
-  }
-
-  @NotNull
-  public Suit getBriscola() {
-    return briscola.getSuit();
-  }
-
-
-  public boolean isBriscola(@NotNull Card c) {
-    return c.getSuit() == getBriscola();
-  }
-
-  @NotNull
-  private Card draw() {
-    assert availableBriscolaCard;
-    if (deck.isEmpty()) {
-      availableBriscolaCard = false;
-      return briscola;
+        briscola = deck.draw();
     }
-    return deck.draw();
-  }
 
-  public boolean availableCards() {
-    return availableBriscolaCard;
-  }
+    public void playTurn() {
+        System.out.println("\n\n---\nricordo che briscola è " + getBriscola());
 
-  @NotNull
-  public Player establishGameWinner() {
-    // TODO identifica (e restituisce) il vincitore della partita (o un NULL OBJECT adatto in caso di pareggio)
-    return null;
-  }
+        System.out.println(firstCardPlayer);
+        Card firstCard = firstCardPlayer.chooseFirstCard(this);
+        System.out.println("ha scelto: " + firstCard);
 
-  @NotNull
-  public Player otherPlayer(@NotNull Player player) {
-    if (players[0] == player)
-      return players[1];
-    return players[0];
-  }
+        System.out.println(otherPlayer(firstCardPlayer));
+        Card secondCard = otherPlayer(firstCardPlayer).chooseSecondCard(this);
+        System.out.println("ha scelto: " + secondCard);
+
+        firstCardPlayer = establishTurnWinner(firstCard, secondCard);
+        System.out.println("vince questa mano: " + firstCardPlayer.getName());
+        firstCardPlayer.addWonCardsToPersonalDeck(firstCard, secondCard);
+    }
+
+
+    @NotNull
+    Player establishTurnWinner(@NotNull Card first, @NotNull Card second) {
+        int punti1 = first.getRank().ordinal();
+        int punti2 = second.getRank().ordinal();
+
+        if (first.getSuit() == second.getSuit())
+            return punti1 > punti2 ? firstCardPlayer : otherPlayer(firstCardPlayer);
+        else if (first.getSuit() == getBriscola())
+            return firstCardPlayer;
+        else if (second.getSuit() == getBriscola())
+            return otherPlayer(firstCardPlayer);
+        else
+            return firstCardPlayer;
+    }
+
+    public void giveEachPlayerOneCard() {
+        firstCardPlayer.giveCard(draw());
+        otherPlayer(firstCardPlayer).giveCard(draw());
+    }
+
+    @NotNull
+    public Suit getBriscola() {
+        return briscola.getSuit();
+    }
+
+
+    public boolean isBriscola(@NotNull Card c) {
+        return c.getSuit() == getBriscola();
+    }
+
+    @NotNull
+    private Card draw() {
+        assert availableBriscolaCard;
+        if (deck.isEmpty()) {
+            availableBriscolaCard = false;
+            return briscola;
+        }
+        return deck.draw();
+    }
+
+    public boolean availableCards() {
+        return availableBriscolaCard;
+    }
+
+    @NotNull
+    public Player establishGameWinner() {
+        int comparation = players[0].compareTo(players[1]);
+        if (comparation > 0) return players[0];
+        if (comparation < 0) return players[1];
+        return PAREGGIO();
+    }
+
+    @NotNull
+    public Player otherPlayer(@NotNull Player player) {
+        if (players[0] == player)
+            return players[1];
+        return players[0];
+    }
+
+    @NotNull
+    public static Player PAREGGIO() {
+        return new Player("pareggio");
+    }
 
 }

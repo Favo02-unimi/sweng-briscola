@@ -13,48 +13,48 @@ import java.util.LinkedList;
 
 
 public class Deck {
-  private final LinkedList<Card> cards;
+    private final @NotNull LinkedList<Card> cards;
 
-  private Deck() {
-    cards = new LinkedList<>();
-  }
+    private Deck() {
+        cards = new LinkedList<>();
+    }
 
-  @NotNull
-  static Deck createEmptyDeck() {
-    return new Deck();
-  }
+    @NotNull
+    static Deck createEmptyDeck() {
+        return new Deck();
+    }
 
-  @NotNull
-  static Deck createFullDeck() {
-    Deck deck = new Deck();
-    deck.shuffleFullDeck();
-    return deck;
-  }
+    @NotNull
+    static Deck createFullDeck() {
+        Deck deck = new Deck();
+        deck.shuffleFullDeck();
+        return deck;
+    }
 
-  private void shuffleFullDeck() {
-    cards.clear();
-    for (Suit suit : Suit.values())
-      for (Rank rank : Rank.values())
-        cards.add(Card.get(rank, suit));
-    Collections.shuffle(cards);
-  }
+    private void shuffleFullDeck() {
+        cards.clear();
+        for (Suit suit : Suit.values())
+            for (Rank rank : Rank.values())
+                cards.add(Card.get(rank, suit));
+        Collections.shuffle(cards);
+    }
 
-  public void push(@NotNull Card card) {
-    assert !cards.contains(card);
-    cards.push(card);
-  }
+    public void push(@NotNull Card card) {
+        assert !cards.contains(card);
+        cards.push(card);
+    }
 
-  @NotNull
-  public Card draw() {
-    assert !isEmpty();
-    return cards.pop();
-  }
+    @NotNull
+    public Card draw() {
+        assert !isEmpty();
+        return cards.pop();
+    }
 
-  public boolean isEmpty() {
-    return cards.isEmpty();
-  }
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
 
-  public int remainingCards() {
-    return cards.size();
-  }
+    public int remainingCards() {
+        return cards.size();
+    }
 }
